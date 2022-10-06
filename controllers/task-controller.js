@@ -47,7 +47,7 @@ class TaskController {
         try {
             const tasksList = await Task.find()
             if (req.params.method == "update") {
-                const task = await Task.findOne({ _id: req.params.id })
+                const task = await Task.findOne({ _id: req.params.taskId })
                 res.render("index", {
                     task,
                     taskDelete: null,
@@ -56,7 +56,7 @@ class TaskController {
                     type: this.type,
                 })
             } else {
-                const taskDelete = await Task.findOne({ _id: req.params.id })
+                const taskDelete = await Task.findOne({ _id: req.params.taskId })
                 res.render("index", {
                     task: null,
                     taskDelete,
@@ -73,7 +73,7 @@ class TaskController {
     updateTask = async (req, res) => {
         try {
             const task = req.body
-            await Task.updateOne({ _id: req.params.id }, task)
+            await Task.updateOne({ _id: req.params.taskId }, task)
             message = "Tarefa atualizada com sucesso!"
             type = "success"
             res.redirect("/")
@@ -84,7 +84,7 @@ class TaskController {
 
     deleteTask = async (req, res) => {
         try {
-            await Task.deleteOne({ _id: req.params.id })
+            await Task.deleteOne({ _id: req.params.taskId })
             message = "Tarefa apagada com sucesso!"
             type = "success"
             res.redirect("/")
@@ -95,7 +95,7 @@ class TaskController {
 
     taskCheck = async (req, res) => {
         try {
-            const task = await Task.findOne({ _id: req.params.id })
+            const task = await Task.findOne({ _id: req.params.taskId })
             task.check ? (task.check = false) : (task.check = true)
             await Task.updateOne({ _id: req.params.id }, task)
             res.redirect("/")
